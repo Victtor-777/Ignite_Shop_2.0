@@ -1,12 +1,11 @@
-import { HomeContainer, Product } from "@/styles/pages/home";
-import { useKeenSlider } from "keen-slider/react";
-import "keen-slider/keen-slider.min.css";
+import { HomeContainer, Product, SliderContainer } from "@/styles/pages/home";
 import Head from "next/head";
 import Image from "next/image";
 import { stripe } from "@/lib/stripe";
 import { GetStaticProps } from "next";
 import Stripe from "stripe";
 import Link from "next/link";
+import useEmblaCarousel from "embla-carousel-react";
 
 interface HomeProps {
   products: {
@@ -18,11 +17,11 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  const [sliderRef] = useKeenSlider({
-    slides: {
-      perView: 3,
-      spacing: 48,
-    },
+  const [emblaRef] = useEmblaCarousel({
+    align: "start",
+    skipSnaps: false,
+    dragFree: true,
+    containScroll: false,
   });
 
   return (
@@ -33,21 +32,32 @@ export default function Home({ products }: HomeProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <HomeContainer ref={sliderRef} className="keen-slider">
-        {products.map((product) => {
-          return (
-            <Link href={`/product/${product.id}`} key={product.id}>
-              <Product className="keen-slider__slide">
-                <Image src={product.imageUrl} alt="" width={520} height={480} />
-                <footer>
-                  <strong>{product.name}</strong>
-                  <span>{product.price}</span>
-                </footer>
-              </Product>
-            </Link>
-          );
-        })}
-      </HomeContainer>
+      <div style={{ overflow: "hidden", width: "100%" }}>
+        <HomeContainer>
+          <div className="embla" ref={emblaRef}>
+            <SliderContainer className="embla__container container">
+              {products.map((product) => {
+                return (
+                  <Link href={`/product/${product.id}`} key={product.id}>
+                    <Product className="embla__slide">
+                      <Image
+                        src={product.imageUrl}
+                        alt=""
+                        width={520}
+                        height={480}
+                      />
+                      <footer>
+                        <strong>{product.name}</strong>
+                        <span>{product.price}</span>
+                      </footer>
+                    </Product>
+                  </Link>
+                );
+              })}
+            </SliderContainer>
+          </div>
+        </HomeContainer>
+      </div>
     </>
   );
 }
