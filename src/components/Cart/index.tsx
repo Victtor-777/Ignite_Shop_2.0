@@ -1,7 +1,17 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { CartButton } from "../CartButton";
-import { CartClose, CartContent } from "./styles";
+import {
+  CartClose,
+  CartContent,
+  CartFinalization,
+  CartProduct,
+  CartProductDetails,
+  CartProductImage,
+  FinalizationDetails,
+} from "./styles";
 import { X } from "phosphor-react";
+import Image from "next/image";
+import camisa0 from "../../assets/camisa0.png";
 
 export function Cart() {
   return (
@@ -19,8 +29,33 @@ export function Cart() {
           <h2>Sacola de compras</h2>
 
           <section>
-            <p>Parece que seu carrinho está vazio :(</p>
+            {/* <p>Parece que seu carrinho está vazio...</p> */}
+
+            <CartProduct>
+              <CartProductImage>
+                <Image width={100} height={93} src={camisa0} alt="" />
+              </CartProductImage>
+              <CartProductDetails>
+                <p>Produto 01</p>
+                <strong>R$ 74,90</strong>
+                <button>Remover</button>
+              </CartProductDetails>
+            </CartProduct>
           </section>
+
+          <CartFinalization>
+            <FinalizationDetails>
+              <div>
+                <span>Quantidade</span>
+                <p>2 itens</p>
+              </div>
+              <div>
+                <span>Valor total</span>
+                <p>RS 129,90</p>
+              </div>
+            </FinalizationDetails>
+            <button>Finalizar compra</button>
+          </CartFinalization>
         </CartContent>
       </Dialog.Portal>
     </Dialog.Root>
