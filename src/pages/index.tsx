@@ -6,6 +6,7 @@ import { GetStaticProps } from "next";
 import Stripe from "stripe";
 import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
+import { CartButton } from "@/components/CartButton";
 
 interface HomeProps {
   products: {
@@ -47,8 +48,11 @@ export default function Home({ products }: HomeProps) {
                         height={480}
                       />
                       <footer>
-                        <strong>{product.name}</strong>
-                        <span>{product.price}</span>
+                        <div>
+                          <strong>{product.name}</strong>
+                          <span>{product.price}</span>
+                        </div>
+                        <CartButton color="green" size="large" />
                       </footer>
                     </Product>
                   </Link>
