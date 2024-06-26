@@ -11,11 +11,10 @@ import {
 } from "./styles";
 import { X } from "phosphor-react";
 import Image from "next/image";
-import camisa0 from "../../assets/camisa0.png";
 import { useCart } from "@/Hooks/useCart";
 
 export function Cart() {
-  const { cartItems } = useCart();
+  const { cartItems, removeCartItem } = useCart();
   const cartQuantity = cartItems.length;
 
   return (
@@ -48,7 +47,9 @@ export function Cart() {
                 <CartProductDetails>
                   <p>{cartItem.name}</p>
                   <strong>{cartItem.price}</strong>
-                  <button onClick={() => console.log("remove")}>Remover</button>
+                  <button onClick={() => removeCartItem(cartItem.id)}>
+                    Remover
+                  </button>
                 </CartProductDetails>
               </CartProduct>
             ))}
