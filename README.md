@@ -1,40 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p>
+  <img src="./public/preview.png" width="100%" />
+</p>
 
-## Getting Started
+# Ignite Shop
 
-First, run the development server:
+Coffee Delivery foi criado para resolução do desafio do curso Ignite (trilha atualizada) da Rocketseat. Essa é uma aplicação completa para uma loja de cafés que vai desde a compra ao carrinho e entrega dos produtos.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Neste projeto foi aplicado diversos conhecimentos visto no módulo como: Context API, layout default, rotas, formulários com React-Hook-Form, hooks (useState e useEffect), além dos fundamentos básicos da ferramenta como a componentização.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O Projeto também foi desenvolvido do total zero, seguindo o layout do Figma, seguindo arrisca todos os parâmetros de cores, tamanho das fontes, espaçamento e estados em que cada elemento possa assumir na aplicação, além de, ter sido incluído alguns elementos a mais a fim de enriquecer o projeto.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- Veja o projeto: [Preview](https://coffee-delivery-victtor.vercel.app/)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## ⚙️ Funcionalidades
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- [x] Listagem de produtos (cafés) disponíveis para compra;
+- [x] Adicionar uma quantidade específicas de itens no carrinho;
+- [x] Aumentar ou remover a quantidade de itens no carrinho;
+- [x] Formulário para o usuário preencher o seu endereço e forma de pagamento;
+- [x] Obter o endereço pelo CEP informado e preencher os campos automaticamente;
+- [x] Exibir o total de itens no carrinho no Header;
+- [x] Exibir o valor total da soma de itens no carrinho multiplicados pelo valor;
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 🚀 Tecnologias
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [x] [React](https://reactjs.org/)
+- [x] [Vite](https://vitejs.dev/)
+- [x] [TypeScript](https://www.typescriptlang.org/)
+- [x] [Context API](https://pt-br.reactjs.org/docs/context.html);
+- [x] [React Router Dom](https://v5.reactrouter.com/web/guides/quick-start);
+- [x] [React Hook Form](https://react-hook-form.com/);
+- [x] [Styled-Components](https://phosphoricons.com/)
+- [x] [Zod](https://phosphoricons.com/)
+- [x] [Phosphor Icons](https://phosphoricons.com/)
