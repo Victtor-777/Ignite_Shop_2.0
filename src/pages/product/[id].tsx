@@ -5,7 +5,7 @@ import {
 } from "@/styles/pages/product";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import Image from "next/image";
 import Head from "next/head";
 import { useCart } from "@/Hooks/useCart";
@@ -18,16 +18,25 @@ interface ProductProps {
 export default function Product({ product }: ProductProps) {
   const { checkIfItemAlreadyExists, addToCart } = useCart();
 
+  if (!product) {
+    return <p>Produto não encontrado</p>;
+  }
+
   const itemAlreadyInCart = checkIfItemAlreadyExists(product.id);
 
   return (
     <>
       <Head>
-        <title>{product.name} | Iginite Shop</title>
+        <title>{product.name} | Ignite Shop</title>
       </Head>
       <ProductContainer>
         <ImageContainer>
-          <Image src={product.imageUrl} alt="" width={520} height={480} />
+          <Image
+            src={product.imageUrl || "/default-image.jpg"}
+            alt=""
+            width={520}
+            height={480}
+          />
         </ImageContainer>
 
         <ProductDetails>
@@ -49,16 +58,10 @@ export default function Product({ product }: ProductProps) {
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [{ params: { id: "prod_Q6KdfBqPjePLpm" } }],
-    fallback: true,
-  };
-};
-
-export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
-  params,
-}) => {
+export const getServerSideProps: GetServerSideProps<
+  any,
+  { id: string }
+> = async ({ params }) => {
   if (!params?.id) {
     return {
       notFound: true,
@@ -67,13 +70,20 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
 
   const productId = params.id;
 
-  const product = await stripe.products.retrieve(productId, {
-    expand: ["default_price"],
-  });
+  let product;
+  try {
+    product = await stripe.products.retrieve(productId, {
+      expand: ["default_price"],
+    });
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 
-  const price = product.default_price as Stripe.Price;
+  const price = product.default_price as Stripe.Price | null;
 
-  if (price.unit_amount === null) {
+  if (!price || price.unit_amount === null) {
     return {
       notFound: true,
     };
@@ -84,16 +94,15 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
       product: {
         id: product.id,
         name: product.name,
-        imageUrl: product.images[0],
+        imageUrl: product.images[0] || "/default-image.jpg",
         price: new Intl.NumberFormat("pt-BR", {
           style: "currency",
           currency: "BRL",
         }).format(price.unit_amount / 100),
         numberPrice: price.unit_amount / 100,
-        description: product.description,
+        description: product.description || "Sem descrição disponível",
         defaultPriceId: price.id,
       },
     },
-    revalidate: 60 * 60 * 1,
   };
 };
