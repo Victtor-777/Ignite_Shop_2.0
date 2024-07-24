@@ -49,39 +49,51 @@ export default function Product({ product }: ProductProps) {
   );
 }
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   return {
-//     paths: [{ params: { id: "prod_Q6KdfBqPjePLpm" } }],
-//     fallback: true,
-//   };
-// };
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [{ params: { id: "prod_Q6KdfBqPjePLpm" } }],
+    fallback: true,
+  };
+};
 
-// export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
-//   params,
-// }) => {
-//   const productId = params!!.id;
+export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
+  params,
+}) => {
+  if (!params?.id) {
+    return {
+      notFound: true,
+    };
+  }
 
-//   const product = await stripe.products.retrieve(productId, {
-//     expand: ["default_price"],
-//   });
+  const productId = params.id;
 
-//   const price = product.default_price as Stripe.Price;
+  const product = await stripe.products.retrieve(productId, {
+    expand: ["default_price"],
+  });
 
-//   return {
-//     props: {
-//       product: {
-//         id: product.id,
-//         name: product.name,
-//         imageUrl: product.images[0],
-//         price: new Intl.NumberFormat("pt-BR", {
-//           style: "currency",
-//           currency: "BRL",
-//         }).format(price.unit_amount!! / 100),
-//         numberPrice: price.unit_amount!! / 100,
-//         description: product.description,
-//         defaultPriceId: price.id,
-//       },
-//     },
-//     revalidate: 60 * 60 * 1,
-//   };
-// };
+  const price = product.default_price as Stripe.Price;
+
+  if (price.unit_amount === null) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      product: {
+        id: product.id,
+        name: product.name,
+        imageUrl: product.images[0],
+        price: new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        }).format(price.unit_amount / 100),
+        numberPrice: price.unit_amount / 100,
+        description: product.description,
+        defaultPriceId: price.id,
+      },
+    },
+    revalidate: 60 * 60 * 1,
+  };
+};
